@@ -15,11 +15,10 @@ func (s *Server) routes() *chi.Mux {
 
 	r.Get("/", s.handleIndex)
 
-	r.Post("/watcher", s.handleWatcher)
-
-	r.Get("/watcher/{watcherID}", s.handleWatcherRequestsPage)
-
 	r.Get("/{watcherID}", s.handleWatcherRequest)
+
+	r.Post("/watcher", s.handleWatcher)
+	r.Get("/watcher/{watcherID}", s.handleWatcherRequestsPage)
 
 	r.Get("/events/{watcherID}", s.handleEvent)
 
