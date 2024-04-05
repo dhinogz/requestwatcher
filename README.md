@@ -16,7 +16,7 @@ A tool to inspect incoming HTTP requests, like webhooks, quickly and easily.
 - PostgreSQL
 - SQLC
 - HTMX
-- Server-Side-Events
+- Server-Sent Events
 
 ## What's left to improve
 - Install tailwind instead of CDN use
