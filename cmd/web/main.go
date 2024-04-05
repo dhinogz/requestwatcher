@@ -15,7 +15,7 @@ import (
 )
 
 type config struct {
-	addr  string
+	port  string
 	env   string
 	dbDsn string
 }
@@ -26,7 +26,7 @@ func loadConfig() (config, error) {
 		return config{}, err
 	}
 	var cfg config
-	cfg.addr = os.Getenv("ADDR")
+	cfg.port = os.Getenv("PORT")
 	cfg.env = os.Getenv("ENV")
 	cfg.dbDsn = os.Getenv("PSQL_DSN")
 
@@ -54,12 +54,12 @@ func main() {
 	manager := manager.New()
 
 	svr := server.New(
-		server.WithPort(cfg.addr),
+		server.WithPort(cfg.port),
 		server.WithLogger(logger),
 		server.WithStore(q),
 		server.WithManager(manager),
 	)
 
-	logger.Info("starting server", "address", cfg.addr, "env", cfg.env)
+	logger.Info("starting server", "address", cfg.port, "env", cfg.env)
 	log.Fatal(svr.ListenAndServe())
 }
