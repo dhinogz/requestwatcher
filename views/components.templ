@@ -1,0 +1,125 @@
+package views
+
+import "github.com/dhinogz/requestwatcher/db"
+import "fmt"
+import "time"
+
+func generateWatchURL(host, watcherID string) string {
+	return fmt.Sprintf("%s/%s", host, watcherID)
+}
+
+templ WatcherInfo(host, watcherID string) {
+	<section id="watcher-info">
+		<div class="mt-4 ">
+			<p class="font-mono text-pink-500 font-bold select-none">
+				You're request endpoint: 
+				<span class="font-mono select-all rounded-lg p-1 px-2 bg-black/25 text-neutral-300">
+					{ generateWatchURL(host, watcherID) }
+				</span>
+			</p>
+		</div>
+	</section>
+}
+
+templ WatcherHTMXFragment(host, watcherID string) {
+	@WatcherInfo(host, watcherID)
+	@ServerSideEvent(watcherID) {
+		@WatcherGrid(nil)
+	}
+}
+
+func generateEventURI(watcherID string) templ.SafeURL {
+	uri := fmt.Sprintf("/events/%s", watcherID)
+	return templ.URL(uri)
+}
+
+templ ServerSideEvent(watcherID string) {
+	<div hx-ext="sse" sse-connect={ string(generateEventURI(watcherID)) } sse-swap="message" hx-swap="beforeend" hx-target="#watch-requests">
+		{ children... }
+	</div>
+}
+
+templ WatcherGrid(wrs []db.WatcherRequest) {
+	<section id="watch-requests" class="flex gap-4 mt-8 flex-col">
+		for _, wr := range wrs {
+			@WatcherCard(wr)
+		}
+	</section>
+}
+
+templ WatcherCard(wr db.WatcherRequest) {
+	<div class="p-3 rounded-lg bg-black/10 border-2 border-white/25 w-3/4 flex gap-y-4 flex-col">
+		<div class="flex gap-2 items-center justify-between">
+			<div class="flex gap-2 items-center">
+				<span class="px-2 font-bold rounded-md uppercase text-white bg-purple-500">
+					{ wr.Method }
+				</span>
+				<span class="font-bold font-mono text-white">{ wr.Ip }</span>
+			</div>
+		</div>
+		<p class="text-white font-bold">
+			{ wr.Timestamp.Time.Format(time.UnixDate) }
+		</p>
+		<div>
+			<h4 class="text-white text-xl font-bold">URL</h4>
+			<p class="text-white text-sm font-bold">
+				Host: 
+				<span class="text-pink-500 font-mono">
+					{ wr.Host }
+				</span>
+			</p>
+			<p class="text-white text-sm font-bold">
+				Path: 
+				<span class="text-pink-500 font-mono">
+					{ wr.Url }
+				</span>
+			</p>
+		</div>
+		<div>
+			<h4 class="text-white text-xl font-bold">Headers</h4>
+			<table>
+				<tbody>
+					@RequestRow("accept", wr.Accept)
+					@RequestRow("accept-encoding", wr.AcceptEncoding)
+					@RequestRow("accept-language", wr.AcceptLanguage)
+					@RequestRow("cf-connecting-ip", wr.CfConnectingIp)
+					@RequestRow("cf-ip-country", wr.CfIpcountry)
+					@RequestRow("cf-ray", wr.CfRay)
+					@RequestRow("cf-visitor", wr.CfVisitor)
+					@RequestRow("connection", wr.Connection)
+					@RequestRow("priority", wr.Priority)
+					@RequestRow("sec-ch-ua", wr.SecChUa)
+					@RequestRow("sec-ch-ua-mobile", wr.SecChUaMobile)
+					@RequestRow("sec-fetch-dest", wr.SecChUaPlatform)
+					@RequestRow("sec-fetch-dest", wr.SecFetchDest)
+					@RequestRow("sec-fetch-mode", wr.SecFetchMode)
+					@RequestRow("sec-fetch-suite", wr.SecFetchSite)
+					@RequestRow("sec-fetch-user", wr.SecFetchUser)
+					@RequestRow("upgrade-insecure-requests", wr.UpgradeInsecureRequests)
+					@RequestRow("user-agent", wr.UserAgent)
+					@RequestRow("x-forwarded-proto", wr.XForwardedProto)
+					@RequestRow("x-real-ip", wr.XRealIp)
+				</tbody>
+			</table>
+		</div>
+		<div>
+			<h4 class="text-white text-xl font-bold">Body</h4>
+			<p class="text-white text-sm font-bold">
+				{ wr.Body }
+			</p>
+		</div>
+	</div>
+}
+
+templ RequestRow(key, value string) {
+	<tr class="border-b last:border-0 border-white/25">
+		<td class="w-full p-1 align-top text-white font-bold text-sm">{ key }</td>
+		<td class="p-1 align-top text-pink-500 text-sm font-mono">{ value }</td>
+	</tr>
+}
+
+templ TextComponent(text string) {
+	<p class="ml-2 font-mono text-neutral-400 font-bold text-sm">
+		{ text }
+	</p>
+}

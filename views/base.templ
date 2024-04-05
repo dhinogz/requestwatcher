@@ -1,0 +1,25 @@
+package views
+
+templ Base() {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="utf-8"/>
+			<meta name="viewport" content="width=device-width,initial-scale=1"/>
+			<title>Request Watcher</title>
+			<script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0" crossorigin="anonymous"></script>
+			<link href="https://cdn.jsdelivr.net/npm/daisyui@4.9.0/dist/full.min.css" rel="stylesheet" type="text/css"/>
+			<script src="https://cdn.tailwindcss.com"></script>
+			<script src="https://unpkg.com/htmx.org@1.9.11/dist/ext/sse.js"></script>
+		</head>
+		<body class="bg-ocean">
+			<main class="m-8">
+				<a href="/">
+					<h1 class="text-4xl font-mono text-white font-bold transition duration-500 hover:text-pink-500">Request Watcher</h1>
+				</a>
+				<h5 class="font-mono italic text-neutral-400 font-bold">A platform to inspect HTTP requests</h5>
+				{ children... }
+			</main>
+		</body>
+	</html>
+}
