@@ -2,14 +2,15 @@ include .env
 
 PSQL_DSN = "postgres://${PSQL_USER}:${PSQL_PASSWORD}@${PSQL_HOST}:${PSQL_PORT}/${PSQL_NAME}?sslmode=${PSQL_SSLMODE}"
 
-run:
-	./bin/web
-
 build:
 	@echo "Building Go application..."
 	@templ generate
 	@sqlc generate
 	@go build -o ./bin/web ./cmd/web
+
+run:
+	./bin/web
+
 
 test:
 	@echo "Testing..."
