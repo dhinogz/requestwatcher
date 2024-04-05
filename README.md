@@ -31,6 +31,7 @@ A tool to inspect incoming HTTP requests, like webhooks, quickly and easily.
   - We only query all requests from one ID and add a request to one ID
   - Filestorage could be cool. Could then be shipped as a standalone Go binary
 - Make body formatting pretty
+- Develop a CLI using Cobra and Charm
 
 
 ## Getting Started
