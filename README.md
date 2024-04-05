@@ -39,6 +39,7 @@ A tool to inspect incoming HTTP requests, like webhooks, quickly and easily.
 - [Docker](https://docs.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
 - [air](https://github.com/cosmtrek/air) (for hot reload)
+- [sqlc](https://sqlc.dev/)
 
 Copy .env.example file (modify to your own liking)
 ```bash
