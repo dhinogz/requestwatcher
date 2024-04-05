@@ -1,5 +1,6 @@
 # RequestWatcher
 A tool to inspect incoming HTTP requests, like webhooks, quickly and easily. 
+
 ![](https://github.com/dhinogz/requestwatcher/blob/main/docs/demo.gif)
 
 ## Features
