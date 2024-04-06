@@ -5,10 +5,6 @@ import (
 	slogchi "github.com/samber/slog-chi"
 )
 
-var (
-	triggerCh = make(chan string)
-)
-
 func (s *Server) routes() *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(slogchi.New(s.Logger))
